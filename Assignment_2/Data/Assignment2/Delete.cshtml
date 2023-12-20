@@ -1,0 +1,40 @@
+﻿@page "/students/delete"
+@using Microsoft.EntityFrameworkCore;
+@using Microsoft.AspNetCore.Components.Forms
+<EditForm Model="deleteModel" OnValidSubmit="DeleteStudent">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="DeleteName">Name to Delete:</label>
+        <InputText id="DeleteName" @bind="deleteModel.Name" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-danger">Delete Student</button>
+</EditForm>
+@code {
+    List<Student>
+    students;
+    Student newStudent = new Student();
+    DeleteModel deleteModel = new DeleteModel();
+    protected override void OnInitialized()
+    {
+    students = DbContext.Students.ToList();
+    }
+    private void AddStudent()
+    {
+    DbContext.Students.Add(newStudent);
+    DbContext.SaveChanges();
+    newStudent = new Student();
+    students = DbContext.Students.ToList();
+    }
+    private void DeleteStudent()
+    {
+    var studentToDelete = DbContext.Students.FirstOrDefault(s => s.Name == deleteModel.Name);
+    if (studentToDelete != null)
+    {
+    DbContext.Students.Remove(studentToDelete);
+    DbContext.SaveChanges();
+    students = DbContext.Students.ToList();
+    }
+    NavigationManager.NavigateTo("/students");
+    }
+    }

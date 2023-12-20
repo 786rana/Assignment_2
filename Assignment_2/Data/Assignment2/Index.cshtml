@@ -1,0 +1,37 @@
+﻿@page "/students"
+@inject  Assignment2DbContext DbContext;
+@using Assignment_2.Data.Assignment2;
+@using Assignment_2.Migrations;
+@using Microsoft.EntityFrameworkCore;
+
+<h3>Student List</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>sname</th>
+            <th>major</th>
+            <th>standing</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var Strudent in Students)
+        {
+            <tr>
+                <td>@Student.Equals</td>
+                <td>@Student.Equals</td>
+                <td>@Student.Equals</td>
+                <td>@Student.Equals</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<button><NavLink href="/students/create">Add Student</NavLink></button>
+
+@code {
+    List<Student>
+    students;
+    protected override void OnInitialized() => students = Assignment2DbContext.Students.ToList();
+    }

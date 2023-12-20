@@ -1,0 +1,43 @@
+﻿@page "/students/create"
+@using Assignment_2.Data;
+
+
+<h3>Create Student</h3>
+
+<EditForm Model="" OnValidSubmit="AddStudent">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <InputText id="name" class="form-control" " />
+    </div>
+    <div class="form-group">
+        <label for="course">Course:</label>
+        <InputText id="course" class="form-control"  />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button><NavLink href="/students/delete">Delete Student</NavLink></button>
+    <button><NavLink href="/students/edit">Edit Student</NavLink></button>
+</EditForm>
+
+@code {
+    Student newStudent = new Student();
+    string errorMessage;
+
+    async Task AddStudent()
+    {
+        try
+        {
+            DbContext.Students.Add(newStudent);
+            await DbContext.SaveChangesAsync();
+            navigationManager.NavigateTo("/students");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");  
+            errorMessage = "An error occurred while saving the student. Please try again.";
+        }
+    }
+}
